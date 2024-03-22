@@ -10,6 +10,7 @@ class DBStorage:
     """This class manages storage of hbnb models in a MySQL database"""
     __engine = None
     __session = None
+    all_classes = ["State", "City", "User", "Place", "Review"]
 
     def __init__(self):
         """Initialize DBStorage instance"""
@@ -26,20 +27,18 @@ class DBStorage:
         if env == 'test':
             Base.metadata.drop_all(self.__engine)
 
-        Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        self.__session = scoped_session(Session)
-
     def all(self, cls=None):
         """Query on the current database session"""
-        from models import classes
         objs = {}
         if cls:
-            query_objs = self.__session.query(classes[cls]).all()
+            query_objs = self.__session.query(cls).all()
+            for obj in query_objs:
+                objs[obj.__class__.__name__ + '.' + obj.id] = obj
         else:
-            for cls in classes.values():
-                query_objs = self.__session.query(cls).all()
+            for class_type in self.all_classes:
+                query_objs = self.__session.query(class_type).all()
                 for obj in query_objs:
-                    objs[type(obj).__name__ + '.' + obj.id] = obj
+                    objs[obj.__class__.__name__ + '.' + obj.id] = obj
         return objs
 
     def new(self, obj):
@@ -62,3 +61,8 @@ class DBStorage:
                                        expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
+
+    def close(self):
+        """Close session"""
+        self.reload()
+        self.__session.close()
