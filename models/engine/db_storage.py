@@ -1,9 +1,17 @@
 #!/usr/bin/python3
 """This module defines the DBStorage class for HBNB project"""
 from os import getenv
+import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
-from models.base_model import Base
+import models
+from models.base_model import BaseModel, Base
+from models.amenity import Amenity
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
+from models.user import User
 
 
 class DBStorage:
@@ -31,12 +39,12 @@ class DBStorage:
         """Query on the current database session"""
         objs = {}
         if cls:
+            if isinstance(cls, str):
+                cls = models.classes.get(cls)
             query_objs = self.__session.query(cls).all()
-            for obj in query_objs:
-                objs[obj.__class__.__name__ + '.' + obj.id] = obj
         else:
-            for class_type in self.all_classes:
-                query_objs = self.__session.query(class_type).all()
+            for model_class in self.all_classes:
+                query_objs = self.__session.query(model_class).all()
                 for obj in query_objs:
                     objs[obj.__class__.__name__ + '.' + obj.id] = obj
         return objs
@@ -64,5 +72,4 @@ class DBStorage:
 
     def close(self):
         """Close session"""
-        self.reload()
         self.__session.close()
