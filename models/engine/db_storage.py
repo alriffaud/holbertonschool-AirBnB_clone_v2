@@ -1,10 +1,8 @@
 #!/usr/bin/python3
 """This module defines the DBStorage class for HBNB project"""
 from os import getenv
-import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
-import models
 from models.base_model import Base
 from models.amenity import Amenity
 from models.city import City
@@ -14,7 +12,7 @@ from models.state import State
 from models.user import User
 
 
-class DBStorage:
+class DBStorage():
     """This class manages storage of hbnb models in a MySQL database"""
     __engine = None
     __session = None
@@ -43,9 +41,9 @@ class DBStorage:
         dic = {}
         if cls is None:
             for c in DBStorage.classes.values():
-                for obj in self.__session.query(c).all():
-                    key = obj.__class__.__name__ + '.' + obj.id
-                    dic[key] = obj
+                for inst in DBStorage.__session.query(c).all():
+                    key = inst.__class__.__name__ + '.' + inst.id
+                    dic[key] = inst
         else:
             for inst in self.__session.query(DBStorage.classes[cls]).all():
                 key = inst.__class__.__name__ + '.' + inst.id
