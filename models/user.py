@@ -9,11 +9,13 @@ from os import getenv
 class User(BaseModel):
     """This class defines a user by various attributes"""
     __tablename__ = "users"
-    if getenv("HBTN_TYPE_STORAGE") = "db":
+    if getenv("HBTN_TYPE_STORAGE") == "db":
         email = Column(str(128), nullable=False)
         password = Column(str(128), nullable=False)
         first_name = Column(str(128), nullable=False)
         last_name = Column(str(128), nullable=False)
+        places = relationship("Place", backref="user",
+                              cascade="all, delete-orphan")
     else:
         email = ""
         password = ""
