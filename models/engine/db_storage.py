@@ -5,7 +5,7 @@ import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 import models
-from models.base_model import BaseModel, Base
+from models.base_model import Base
 from models.amenity import Amenity
 from models.city import City
 from models.place import Place
@@ -18,7 +18,11 @@ class DBStorage:
     """This class manages storage of hbnb models in a MySQL database"""
     __engine = None
     __session = None
-    all_classes = [State, City, User, Place, Review, Amenity]
+    classes = {
+               'User': User, 'Place': Place,
+               'State': State, 'City': City, 'Amenity': Amenity,
+               'Review': Review
+              }
 
     def __init__(self):
         """Initialize DBStorage instance"""
@@ -38,12 +42,12 @@ class DBStorage:
         """Query on the current database session"""
         dic = {}
         if cls is None:
-            for c in self.all_classes:
+            for c in DBStorage.classes.values():
                 for instance in self.__session.query(c).all():
                     key = instance.__class__.__name__ + '.' + instance.id
                     dic[key] = instance
         else:
-            for instance in self.__session.query(cls).all():
+            for instance in self.__session.query(DBStorage.classes[cls]).all():
                 key = instance.__class__.__name__ + '.' + instance.id
                 dic[key] = instance
         return dic
