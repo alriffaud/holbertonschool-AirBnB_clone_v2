@@ -1,9 +1,14 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, ForeignKey
+from sqlalchemy import Column, String, ForeignKey, Table
 from sqlalchemy.orm import relationship
 from os import getenv
+
+
+place_amenity = Table('place_amenity', Bas.metadata,
+                      Column('place_id', str(60), ForeignKey(places_id)),
+                      Column('amenity_id', str(60), ForeignKey(amenities.id)))
 
 
 class Place(BaseModel, Base):
@@ -22,6 +27,9 @@ class Place(BaseModel, Base):
         longitude = Column(float, nullable=False)
         reviews = relationship("Review", backref="place",
                                casacade="all, delete-orphan")
+        amenities = relationship("Amenity", secondary=place_amenity,
+                                 viewonly=False,
+                                 back_populates="place_amenity")
     else:
         city_id = ""
         user_id = ""
@@ -46,3 +54,14 @@ class Place(BaseModel, Base):
             if obj.place_id == self.id:
                 review_instances.append(obj)
         return review_instances
+
+    @property
+    def amenities(self):
+        """returns the list of Amenity instances based on the attribute
+        amenity_ids that contains all Amenity.id linked to the Place"""
+    
+
+    @amenities.setter
+    def amenities(self):
+        """handles append method for adding an Amenity.id to the
+        attribute amenity_ids"""
