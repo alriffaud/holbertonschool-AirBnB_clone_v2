@@ -237,7 +237,7 @@ class HBNBCommand(cmd.Cmd):
             print(lists)
             return
         class_name = arg[0]
-        if class_name not in self.class_mapping:
+        if class_name not in self.classes:
             print("** class doesn't exist **")
             return
         lists = [str(obj) for obj in storage.all().values()]
