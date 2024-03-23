@@ -40,16 +40,16 @@ class DBStorage:
 
     def all(self, cls=None):
         """Query on the current database session"""
-        dic = dict()
+        dic = {}
         if cls is None:
             for c in DBStorage.classes.values():
                 for obj in self.__session.query(c).all():
                     key = obj.__class__.__name__ + '.' + obj.id
                     dic[key] = obj
         else:
-            for instance in self.__session.query(DBStorage.classes[cls]).all():
-                key = instance.__class__.__name__ + '.' + instance.id
-                dic[key] = instance
+            for inst in self.__session.query(DBStorage.classes[cls]).all():
+                key = inst.__class__.__name__ + '.' + inst.id
+                dic[key] = inst
         return dic
 
     def new(self, obj):
