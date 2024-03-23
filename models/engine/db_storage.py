@@ -39,7 +39,6 @@ class DBStorage:
         dic = {}
         if cls is None:
             for c in self.all_classes:
-                c = eval(c)
                 for instance in self.__session.query(c).all():
                     key = instance.__class__.__name__ + '.' + instance.id
                     dic[key] = instance
