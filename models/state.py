@@ -6,11 +6,10 @@ from sqlalchemy.orm import relationship
 from os import getenv
 
 
-
 class State(BaseModel, Base):
     """ State class """
-    __tablename__ = 'states'
     if getenv('HBNB_TYPE_STORAGE') == 'db':
+        __tablename__ = 'states'
         name = Column(String(128), nullable=False)
         cities = relationship("City", backref="state",
                               cascade="all, delete-orphan")
@@ -22,9 +21,9 @@ class State(BaseModel, Base):
             """ returns the list of City instances with state_id equals
             to the current State.id"""
             from models import storage
+            from models.city import City
             city_instances = []
-            for key, obj in storage.all().items():
-                if obj.__class__.__name__ == 'City':
-                    if obj.state_id == self.id:
-                        city_instances.append(obj)
+            for obj in storage.all(City).values():
+                if obj.state_id == self.id:
+                    city_instances.append(obj)
             return city_instances
