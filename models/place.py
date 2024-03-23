@@ -18,8 +18,8 @@ class Place(BaseModel, Base):
         number_bathrooms = Column(int, nullable=False, default=0)
         max_guest = Column(int, nullable=False, default=0)
         price_by_night = Column(int, nullable=False, default=0)
-        latitude = Column(float, nullable= False)
-        longitude = Column(float, nullable= False)
+        latitude = Column(float, nullable=False)
+        longitude = Column(float, nullable=False)
         reviews = relationship("Review", backref="place",
                                casacade="all, delete-orphan")
     else:
@@ -40,11 +40,9 @@ class Place(BaseModel, Base):
         """getter attribute reviews that returns the list of
         Review instances with place_id equals to the current Place.id"""
         from models import storage
-            from models.reviews import Review
-            review_instances = []
-            for obj in storage.all(Review).values():
-                if obj.place_id == self.id:
-                    review_instances.append(obj)
-            return review_instances
-
-
+        from models.reviews import Review
+        review_instances = []
+        for obj in storage.all(Review).values():
+            if obj.place_id == self.id:
+                review_instances.append(obj)
+        return review_instances
