@@ -40,15 +40,11 @@ class DBStorage():
         """Query on the current database session"""
         dic = {}
         if cls is None:
-            data = self.__session.query(State).all()
-            data += self.__session.query(City).all()
-            # data += self.__session.query(User).all()
-            # data += self.__session.query(Place).all()
-            # data += self.__session.query(Review).all()
-            # data += self.__session.query(Amenity).all()
-            for inst in data:
-                key = inst.__class__.__name__ + '.' + inst.id
-                dic[key] = inst
+            for cls_name, cls_model in DBStorage.classes.items():
+                data = self.__session.query(cls_model).all()
+                for inst in data:
+                    key = inst.__class__.__name__ + '.' + inst.id
+                    dic[key] = inst
         else:
             for inst in self.__session.query(DBStorage.classes[cls]).all():
                 key = inst.__class__.__name__ + '.' + inst.id
@@ -58,7 +54,6 @@ class DBStorage():
     def new(self, obj):
         """Add the object to the current database session"""
         self.__session.add(obj)
-        self.__session.commit()
 
     def save(self):
         """Commit all changes of the current database session"""
@@ -68,7 +63,6 @@ class DBStorage():
         """Delete from the current database session"""
         if obj:
             self.__session.delete(obj)
-            self.save()
 
     def reload(self):
         """Create all tables in the database"""
