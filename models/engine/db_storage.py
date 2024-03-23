@@ -18,7 +18,7 @@ class DBStorage:
     """This class manages storage of hbnb models in a MySQL database"""
     __engine = None
     __session = None
-    all_classes = ["State", "City", "User", "Place", "Review"]
+    all_classes = [State, City, User, Place, Review, Amenity]
 
     def __init__(self):
         """Initialize DBStorage instance"""
@@ -28,9 +28,8 @@ class DBStorage:
         db = getenv('HBNB_MYSQL_DB')
         env = getenv('HBNB_ENV')
 
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
-                                      .format(user, pwd, host, db),
-                                      pool_pre_ping=True)
+        db_url = 'mysql+mysqldb://{}:{}@{}/{}'.format(user, pwd, host, db)
+        self.__engine = create_engine(db_url, pool_pre_ping=True)
 
         if env == 'test':
             Base.metadata.drop_all(self.__engine)
