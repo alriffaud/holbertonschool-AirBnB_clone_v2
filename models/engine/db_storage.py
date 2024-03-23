@@ -40,10 +40,15 @@ class DBStorage():
         """Query on the current database session"""
         dic = {}
         if cls is None:
-            for c in DBStorage.classes.values():
-                for inst in DBStorage.__session.query(c).all():
-                    key = inst.__class__.__name__ + '.' + inst.id
-                    dic[key] = inst
+            data = self.__session.query(State).all()
+            data += self.__session.query(City).all()
+            data += self.__session.query(User).all()
+            data += self.__session.query(Place).all()
+            data += self.__session.query(Review).all()
+            data += self.__session.query(Amenity).all()
+            for inst in data:
+                key = inst.__class__.__name__ + '.' + inst.id
+                dic[key] = inst
         else:
             for inst in self.__session.query(DBStorage.classes[cls]).all():
                 key = inst.__class__.__name__ + '.' + inst.id
