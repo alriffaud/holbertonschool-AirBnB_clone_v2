@@ -40,7 +40,7 @@ class DBStorage:
 
     def all(self, cls=None):
         """Query on the current database session"""
-        dic = {}
+        dic = dict()
         if cls is None:
             for c in DBStorage.classes.values():
                 for obj in self.__session.query(c).all():
