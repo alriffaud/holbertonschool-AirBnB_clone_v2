@@ -10,7 +10,6 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-import shlex
 
 
 class HBNBCommand(cmd.Cmd):
@@ -232,18 +231,24 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
-        if storage.all() is None or storage.all() == {}:
-            print("[]")
-        else:
-            arg = shlex.split(args)
-            if len(arg) == 0 or arg is None or arg == "":
-                print([str(obj) for obj in storage.all().values()])
-            elif arg[0] not in storage.classes.keys():
-                print("** class doesn't exist **")
-            else:
-                values = [str(obj) for obj in storage.all().values()
-                          if obj.__class__.__name__ == arg[0]]
-                print(values)
+        objects = storage.all()
+        my_list = []
+        if not args:
+            for key in objects:
+                my_list.append(objects[key])
+            print(my_list)
+            return
+        try:
+            arg = args.split(" ")
+            if arg[0] not in self.all_classes:
+                raise NameError()
+            for key in objects:
+                name = key.split('.')
+                if name[0] == arg[0]:
+                    my_list.append(objects[key])
+            print(my_list)
+        except NameError:
+            print("** class doesn't exist **")
 
     def help_all(self):
         """ Help information for the all command """
