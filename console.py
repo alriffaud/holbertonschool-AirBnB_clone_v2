@@ -240,7 +240,7 @@ class HBNBCommand(cmd.Cmd):
             return
         try:
             arg = args.split(" ")
-            if arg[0] not in self.all_classes:
+            if arg[0] not in HBNBCommand.classes:
                 raise NameError()
             for key in objects:
                 name = key.split('.')
