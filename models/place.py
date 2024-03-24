@@ -70,6 +70,9 @@ class Place(BaseModel, Base):
     
 
     @amenities.setter
-    def amenities(self):
+    def amenities(self, amenity=None):
         """handles append method for adding an Amenity.id to the
         attribute amenity_ids"""
+        from models.amenity import Amenity
+        if isinstance(amenity, Amenity):
+            self.amenity_ids.append(amenity.id)
