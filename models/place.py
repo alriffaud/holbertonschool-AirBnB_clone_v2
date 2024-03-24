@@ -20,7 +20,7 @@ from models.base_model import BaseModel, Base
 class Place(BaseModel):
     """ A place to stay """
     #__tablename__ = "places"
-    #if getenv("HBTN_TYPE_STORAGE") == "db":
+    #if getenv("HBNB_TYPE_STORAGE") == "db":
         #city_id = Column(String(128), ForeignKey("cities.id"), nullable=False)
         #user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
         #name = Column(String(128), nullable=False)

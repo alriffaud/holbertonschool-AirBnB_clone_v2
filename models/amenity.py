@@ -10,7 +10,7 @@ from models.base_model import BaseModel, Base
 class Amenity(BaseModel):
     """class amenity that conatins name """
    # __tablename__ = "amenities"
-    #if getenv(HBTN_TYPE_STORAGE) == "db":
+    #if getenv(HBNB_TYPE_STORAGE) == "db":
      #   name = Column(String(128), nullable=False)
       #  place_amenities = relationship("Place", secondary=place_amenity,
     #                                   back_populates="amenities")
