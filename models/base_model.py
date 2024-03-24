@@ -35,6 +35,9 @@ class BaseModel:
                     kwargs['created_at'], '%Y-%m-%dT%H:%M:%S.%f')
             else:
                 self.created_at = datetime.now()
+            for key, val in kwargs.items():
+                if "__class__" not in key:
+                    setattr(self, key, val)
             if 'id' not in kwargs:
                 self.id = str(uuid.uuid4())
 
