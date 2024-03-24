@@ -53,8 +53,6 @@ class Place(BaseModel, Base):
     def reviews(self):
         """getter attribute reviews that returns the list of
         Review instances with place_id equals to the current Place.id"""
-        from models import storage
-        from models.reviews import Review
         review_instances = []
         for obj in storage.all(Review).values():
             if obj.place_id == self.id:
@@ -65,11 +63,9 @@ class Place(BaseModel, Base):
     def amenities(self):
         """returns the list of Amenity instances based on the attribute
         amenity_ids that contains all Amenity.id linked to the Place"""
-        from models import storage
-        from models.amenity import Amenity
         amenity_instances = []
         for obj in storage.all(Amenity).values():
-            if obj.amenity_ids == self.id:
+            if obj.place_id == self.id:
                 amenity_instances.append(obj)
         return amenity_instances
 
