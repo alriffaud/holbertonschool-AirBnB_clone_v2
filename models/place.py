@@ -27,7 +27,7 @@ class Place(BaseModel, Base):
         latitude = Column(Float, nullable=False)
         longitude = Column(Float, nullable=False)
         reviews = relationship("Review", backref="place",
-                               casacade="all, delete-orphan")
+                               cascade="all, delete-orphan")
         amenities = relationship("Amenity", secondary=place_amenity,
                                  viewonly=False,
                                  back_populates="place_amenity")
@@ -63,7 +63,7 @@ class Place(BaseModel, Base):
         from models import storage
         from models.amenity import Amenity
         amenity_instances = []
-        for obj in storage.all(Amnity).values():
+        for obj in storage.all(Amenity).values():
             if obj.amenity_ids == self.id:
                 amenity_instances.append(obj)
         return amenity_instances
@@ -74,6 +74,5 @@ class Place(BaseModel, Base):
     def amenities(self, amenity):
         """handles append method for adding an Amenity.id to the
         attribute amenity_ids"""
-        from models.amenity import Amenity
         if isinstance(amenity, Amenity):
             self.amenity_ids.append(amenity.id)
