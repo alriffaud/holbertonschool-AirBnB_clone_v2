@@ -37,12 +37,7 @@ class BaseModel:
             else:
                 self.created_at = datetime.now()
             if 'id' not in kwargs:
-                kwargs['id'] = str(uuid.uuid4())
-            for key, value in kwargs.items():
-                if "__class__" not in key:
-                    setattr(self, key, value)
-            del kwargs['__class__']
-            self.__dict__.update(kwargs)
+                self.id = str(uuid.uuid4())
 
     def __str__(self):
         """Returns a string representation of the instance"""
