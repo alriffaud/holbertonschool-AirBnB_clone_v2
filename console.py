@@ -116,46 +116,28 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, args):
         """ Function to allow for object creation with given parameters """
         # isolate Class from parameters
-        args = args.split()
-        if args[0]:
-            c_name = args[0]
-        else:  # class name not present
-            print("** class name missing **")
-            return
-        if c_name not in HBNBCommand.classes:  # class name invalid
-            print("** class doesn't exist **")
-            return
-        kwargs = {}
         try:
-            for param in args[1:]:
-                param_split = param.split('=')
-                if len(param_split) != 2:
-                    continue
-                key, str_value = param_split
-
-                if str_value[0] == '"' and str_value[-1] == '"':
-                    str_value = str_value[1:-1]
-                    value = str_value.replace('_', ' ')
-                elif '.' in str_value:
-                    try:
-                        value = float(str_value)
-                    except ValueError:
-                        continue
+            if not args:
+                raise SyntaxError()
+            my_list = args.split(" ")
+            obj = eval("{}()".format(my_list[0]))
+            for i in range(1, len(my_list)):
+                plist = my_list[i].split('=')
+                attr = plist[0]
+                val = plist[1]
+                if val[0][:1] == "\"" and val[0][-1:] == "\"":
+                    val = plist[1][1:-1].replace('_', ' ').replace('\"', '\\"')
+                elif plist[1].isdigit():
+                    val = int(plist[1])
                 else:
-                    try:
-                        value = int(str_value)
-                    except ValueError:
-                        continue
-                kwargs[key] = value
-            new_instance = HBNBCommand.classes[c_name]()
-
-            for key, value in kwargs.items():
-                setattr(new_instance, key, value)
-
-            new_instance.save()
-            print(new_instance.id)
-        except Exception:
-            pass
+                    val = float(plist[1])
+                obj.__setattr__(attr, val)
+            obj.save()
+            print("{}".format(obj.id))
+        except SyntaxError:
+            print("** class name missing **")
+        except NameError:
+            print("** class doesn't exist **")
 
     def help_create(self):
         """ Help information for the create method """
