@@ -32,7 +32,7 @@ class DBStorage():
 
         db_url = 'mysql+mysqldb://{}:{}@{}/{}'.format(user, pwd, host, db)
         self.__engine = create_engine(db_url, pool_pre_ping=True)
-        #self.__session = None
+        # self.__session = None
 
         if env == 'test':
             Base.metadata.drop_all(self.__engine)
@@ -72,8 +72,7 @@ class DBStorage():
     def reload(self):
         """Create all tables in the database"""
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(
-            bind=self.__engine, expire_on_commit=False)
+        session_factory = sessionmaker(self.__engine, expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
 
