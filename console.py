@@ -235,7 +235,7 @@ class HBNBCommand(cmd.Cmd):
         my_list = []
         if not args:
             for key in objects:
-                my_list.append(objects[key])
+                my_list.append(str(objects[key]))
             print(my_list)
             return
         try:
@@ -245,7 +245,7 @@ class HBNBCommand(cmd.Cmd):
             for key in objects:
                 name = key.split('.')
                 if name[0] == arg[0]:
-                    my_list.append(objects[key])
+                    my_list.append(str(objects[key]))
             print(my_list)
         except NameError:
             print("** class doesn't exist **")
