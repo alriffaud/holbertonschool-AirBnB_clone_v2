@@ -16,7 +16,7 @@ if getenv('HBNB_TYPE_STORAGE') == 'db':
                                  primary_key=True, nullable=False))
 
 
-class Place(BaseModel):
+class Place(BaseModel, Base):
     """ A place to stay """
     if getenv('HBNB_TYPE_STORAGE') == 'db':
         __tablename__ = "places"
