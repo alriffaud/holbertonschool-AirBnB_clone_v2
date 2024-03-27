@@ -42,11 +42,11 @@ class DBStorage():
         if cls is None:
             data = self.__session.query(State).all()
             data += self.__session.query(City).all()
-            data += self.__session.query(User).all()
-            data += self.__session.query(Place).all()
-            data += self.__session.query(Review).all()
-            data += self.__session.query(Amenity).all()
-            for inst in data:
+           # data += self.__session.query(User).all()
+           # data += self.__session.query(Place).all()
+           # data += self.__session.query(Review).all()
+           # data += self.__session.query(Amenity).all()
+           # for inst in data:
                 key = inst.__class__.__name__ + '.' + inst.id
                 dic[key] = inst
         else:
