@@ -5,7 +5,7 @@ from models.base_model import BaseModel
 #from os import getenv
 
 
-class Review(BaseModel, Base):
+class Review(BaseModel):
     """ Review classto store review information """
    # if getenv("HBNB_TYPE_STORAGE") == "db":
        # __tablename__ = "reviews"
