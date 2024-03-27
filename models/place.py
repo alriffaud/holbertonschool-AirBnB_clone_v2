@@ -4,6 +4,8 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey, Table, Integer, Float
 from sqlalchemy.orm import relationship
 from os import getenv
+from models.amenity import Amenity
+from models.review import Review
 
 
 if getenv('HBNB_TYPE_STORAGE') == 'db':
@@ -35,6 +37,7 @@ class Place(BaseModel):
         amenities = relationship("Amenity", secondary=place_amenity,
                                  viewonly=False,
                                  back_populates="place_amenity")
+        amenity_ids = []
     else:
         city_id = ""
         user_id = ""
@@ -52,7 +55,6 @@ class Place(BaseModel):
     def reviews(self):
         """getter attribute reviews that returns the list of
         Review instances with place_id equals to the current Place.id"""
-        from models.review import Review
         from models import storage
         review_instances = []
         for obj in storage.all(Review).values():
@@ -64,11 +66,10 @@ class Place(BaseModel):
     def amenities(self):
         """returns the list of Amenity instances based on the attribute
         amenity_ids that contains all Amenity.id linked to the Place"""
-        from models.amenity import Amenity
         from models import storage
         amenity_instances = []
         for obj in storage.all(Amenity).values():
-            if obj.amenity_ids == self.id:
+            if obj.id in self.amenity_ids:
                 amenity_instances.append(obj)
         return amenity_instances
 
@@ -76,6 +77,5 @@ class Place(BaseModel):
     def amenities(self, amenity):
         """handles append method for adding an Amenity.id to the
         attribute amenity_ids"""
-        from models.amenity import Amenity
         if isinstance(amenity, Amenity):
             self.amenity_ids.append(amenity.id)
