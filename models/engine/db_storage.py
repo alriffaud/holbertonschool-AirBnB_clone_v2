@@ -47,11 +47,11 @@ class DBStorage():
             data += self.__session.query(Review).all()
             data += self.__session.query(Amenity).all()
             for inst in data:
-                key = inst.__class__.__name__ + '.' + inst.id
+                key = f"{inst.__class__.__name__}.{inst.id}"
                 dic[key] = inst
         else:
-            for inst in self.__session.query(DBStorage.classes[cls]).all():
-                key = inst.__class__.__name__ + '.' + inst.id
+            for inst in self.__session.query(classes[cls]).all():
+                key = f"{inst.__class__.__name__}.{inst.id}"
                 dic[key] = inst
         return dic
 
