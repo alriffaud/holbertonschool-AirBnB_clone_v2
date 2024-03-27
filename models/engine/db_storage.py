@@ -16,11 +16,6 @@ class DBStorage():
     """This class manages storage of hbnb models in a MySQL database"""
     __engine = None
     __session = None
-    classes = {
-               'User': User, 'Place': Place,
-               'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review
-              }
 
     def __init__(self):
         """Initialize DBStorage instance"""
@@ -38,14 +33,14 @@ class DBStorage():
 
     def all(self, cls=None):
         """Query on the current database session"""
+        classes = {
+               'User': User, 'Place': Place,
+               'State': State, 'City': City, 'Amenity': Amenity,
+               'Review': Review
+              }
         dic = {}
         if cls is None:
-            data = self.__session.query(State).all()
-            data += self.__session.query(City).all()
-            data += self.__session.query(User).all()
-            data += self.__session.query(Place).all()
-            data += self.__session.query(Review).all()
-            data += self.__session.query(Amenity).all()
+            data = self.__session.query(classes[cls]).all()
             for inst in data:
                 key = inst.__class__.__name__ + '.' + inst.id
                 dic[key] = inst
