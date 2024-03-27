@@ -40,7 +40,6 @@ class DBStorage():
               }
         dic = {}
         if cls is None:
-            for key, value in classes.items():
             data = self.__session.query(State).all()
             data += self.__session.query(City).all()
             data += self.__session.query(User).all()
