@@ -45,12 +45,10 @@ class Place(BaseModel, Base):
         amenity_ids = []
 
     """@property
-    def reviews(self):
-        """
-        """This method returns the list of Review instances with place_id equals
+    def reviews(self):"""
+    """This method returns the list of Review instances with place_id equals
         to the current Place.id"""
-        """
-        from models.review import Review
+    """from models.review import Review
         from models import storage
         review_instances = []
         for obj in storage.all(Review).values():
@@ -59,12 +57,10 @@ class Place(BaseModel, Base):
         return review_instances
 
     @property
-    def amenities(self):
-        """
-       """ This method returns the list of Amenity instances based on the
+    def amenities(self):"""
+    """ This method returns the list of Amenity instances based on the
         attribute amenity_ids that contains all Amenity.id linked to the Place."""
-        """
-        from models.amenity import Amenity
+    """from models.amenity import Amenity
         from models import storage
         amenity_instances = []
         for obj in storage.all(Amenity).values():
@@ -73,11 +69,9 @@ class Place(BaseModel, Base):
         return amenity_instances
 
     @amenities.setter
-    def amenities(self, amenity):
-        """
-        """This method handles append method for adding an Amenity.id to the
+    def amenities(self, amenity):"""
+    """This method handles append method for adding an Amenity.id to the
         attribute amenity_ids"""
-        """
-        from models.amenity import Amenity
+    """from models.amenity import Amenity
         if isinstance(amenity, Amenity):
             self.amenity_ids.append(amenity.id)"""
