@@ -34,7 +34,7 @@ class DBStorage():
     def all(self, cls=None):
         """Query on the current database session"""
         classes = {'State': State, 'City': City, 'User': User, 'Place': Place,
-                   'Review': Review, 'Amenity': Amenity}
+                   'Review': Review}
         dic = {}
         if cls is None:
             for cls_name, cls_type in classes.items():
