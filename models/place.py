@@ -32,7 +32,8 @@ class Place(BaseModel, Base):
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
         amenities = relationship("Amenity", secondary=place_amenity,
-                                                 viewonly=False)
+                                 viewonly=False)
+
         @property
         def amenities(self):
             """ This method returns the list of Amenity instances based on the
@@ -47,8 +48,8 @@ class Place(BaseModel, Base):
 
         @amenities.setter
         def amenities(self, amenity):
-            """This method handles append method for adding an Amenity.id to the
-            attribute amenity_ids"""
+            """This method handles append method for adding an Amenity.id to
+            the attribute amenity_ids"""
             if isinstance(amenity, Amenity):
                 self.amenity_ids.append(amenity.id)
         amenity_ids = []
