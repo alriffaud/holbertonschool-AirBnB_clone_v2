@@ -102,8 +102,8 @@ language, making it compatible with a variety of applications and programming la
 
 MySQL is commonly used in web development to store and retrieve data for websites and applications. It offers features\
 such as transactions, indexing, and security features, making it a popular choice for developers and businesses alike.\
-Additionally, MySQL is part of the LAMP (Linux, Apache, MySQL, PHP/Python/Perl) stack, which is a widely used technology\
-stack for building and deploying web applications.
+Additionally, MySQL is part of the LAMP (Linux, Apache, MySQL, PHP/Python/Perl) stack, which is a widely used\
+technology stack for building and deploying web applications.
 
 
 ## Project scheme
