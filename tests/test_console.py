@@ -24,10 +24,7 @@ class TestConsole(unittest.TestCase):
 
     def tearDown(self):
         """ Remove storage file at end of tests """
-        try:
-            os.remove('file.json')
-        except:
-            pass
+        pass
 
     @patch('sys.stdout', new_callable=StringIO)
     def test_prompt(self, mock_stdout):
@@ -41,7 +38,8 @@ class TestConsole(unittest.TestCase):
         """help quit test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
             self.console.do_help('quit')
-            self.assertEqual(mock_stdout.getvalue(), "Exits the program with formatting\n\n")
+            self.assertEqual(mock_stdout.getvalue(),
+                             "Exits the program with formatting\n\n")
 
     @patch('sys.stdout', new_callable=StringIO)
     def test_do_quit(self, mock_stdout):
@@ -54,7 +52,8 @@ class TestConsole(unittest.TestCase):
         """help EOF test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
             self.console.do_help('EOF')
-            self.assertEqual(mock_stdout.getvalue(), "Exits the program without formatting\n\n")
+            self.assertEqual(mock_stdout.getvalue(),
+                             "Exits the program without formatting\n\n")
 
     @patch('sys.stdout', new_callable=StringIO)
     def test_do_EOF(self, mock_stdout):
@@ -74,7 +73,8 @@ class TestConsole(unittest.TestCase):
         """pre cmd test"""
         line = "User.update(\"test_id\", {\"name\": \"test_name\"})"
         new_line = self.console.precmd(line)
-        self.assertEqual(new_line, "update User test_id {\"name\": \"test_name\"}")
+        self.assertEqual(new_line,
+                         "update User test_id {\"name\": \"test_name\"}")
 
     @patch('sys.stdin', new_callable=StringIO)
     @patch('sys.stdin.isatty', return_value=True)
@@ -99,7 +99,8 @@ class TestConsole(unittest.TestCase):
         """help_create test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
             self.console.do_help('create')
-            self.assertIn("Creates a class of any type", mock_stdout.getvalue())
+            self.assertIn("Creates a class of any type",
+                          mock_stdout.getvalue())
 
     @patch('sys.stdout', new_callable=StringIO)
     def test_do_show(self, mock_stdout):
@@ -114,7 +115,8 @@ class TestConsole(unittest.TestCase):
         """help show test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
             self.console.do_help('show')
-            self.assertIn("Shows an individual instance of a class", mock_stdout.getvalue())
+            self.assertIn("Shows an individual instance of a class",
+                          mock_stdout.getvalue())
 
     def test_do_destroy(self):
         """do_destroy test"""
@@ -128,7 +130,8 @@ class TestConsole(unittest.TestCase):
         """help_destroy test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
             self.console.do_help('destroy')
-            self.assertIn("Destroys an individual instance of a class", mock_stdout.getvalue())
+            self.assertIn("Destroys an individual instance of a class",
+                          mock_stdout.getvalue())
 
     @patch('sys.stdout', new_callable=StringIO)
     def test_do_all(self, mock_stdout):
@@ -144,7 +147,8 @@ class TestConsole(unittest.TestCase):
         """help all test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
             self.console.do_help('all')
-            self.assertIn("Shows all objects, or all of a class", mock_stdout.getvalue())
+            self.assertIn("Shows all objects, or all of a class",
+                          mock_stdout.getvalue())
 
     def test_do_count(self):
         """do_count test"""
@@ -165,7 +169,8 @@ class TestConsole(unittest.TestCase):
         base_model = BaseModel()
         key = base_model.__class__.__name__ + '.' + base_model.id
         storage.all()[key] = base_model
-        self.console.onecmd('update BaseModel {} name "new_name"'.format(base_model.id))
+        self.console.onecmd('update BaseModel {} name "new_name"'.format(
+            base_model.id))
         updated_base_model = storage.all().get(key)
         self.assertEqual(updated_base_model.name, "new_name")
         # self.assertIn("new_name", mock_stdout.getvalue())
@@ -183,7 +188,8 @@ class TestConsole(unittest.TestCase):
         """help update test"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
             self.console.do_help('update')
-            self.assertIn("Updates an object with new information", mock_stdout.getvalue())
+            self.assertIn("Updates an object with new information",
+                          mock_stdout.getvalue())
 
 
 if __name__ == '__main__':
