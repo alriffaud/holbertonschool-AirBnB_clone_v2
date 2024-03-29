@@ -30,6 +30,8 @@ class Place(BaseModel, Base):
         price_by_night = Column(Integer, nullable=False, default=0)
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
+        amenities = relationship("Amenity", secondary=place_amenity,
+                                                 viewonly=False)
         @property
         def amenities(self):
             """ This method returns the list of Amenity instances based on the
@@ -44,15 +46,12 @@ class Place(BaseModel, Base):
             return amenity_instances
 
         @amenities.setter
-    def amenities(self, amenity):
-        """This method handles append method for adding an Amenity.id to the
-        attribute amenity_ids"""
-        from models.amenity import Amenity
-        if isinstance(amenity, Amenity):
-            self.amenity_ids.append(amenity.id)
-
-        amenities = relationship("Amenity", secondary=place_amenity,
-                                 viewonly=False)
+        def amenities(self, amenity):
+            """This method handles append method for adding an Amenity.id to the
+            attribute amenity_ids"""
+            from models.amenity import Amenity
+            if isinstance(amenity, Amenity):
+                self.amenity_ids.append(amenity.id)
         amenity_ids = []
     else:
         city_id = ""
