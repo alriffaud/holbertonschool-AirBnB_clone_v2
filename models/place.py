@@ -30,6 +30,29 @@ class Place(BaseModel, Base):
         price_by_night = Column(Integer, nullable=False, default=0)
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
+        @property
+        def amenities(self):
+            """ This method returns the list of Amenity instances based on the
+            attribute amenity_ids that contains all Amenity.id linked to the
+            Place."""
+            from models.amenity import Amenity
+            from models import storage
+            amenity_instances = []
+            for obj in storage.all(Amenity).values():
+                if obj.amenity_ids == self.id:
+                    amenity_instances.append(obj)
+            return amenity_instances
+
+        @amenities.setter
+    def amenities(self, amenity):
+        """This method handles append method for adding an Amenity.id to the
+        attribute amenity_ids"""
+        from models.amenity import Amenity
+        if isinstance(amenity, Amenity):
+            self.amenity_ids.append(amenity.id)
+
+        amenities = relationship("Amenity", secondary=place_amenity,
+                                 viewonly=False)
         amenity_ids = []
     else:
         city_id = ""
