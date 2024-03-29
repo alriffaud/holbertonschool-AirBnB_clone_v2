@@ -5,14 +5,14 @@ from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table
 from sqlalchemy.orm import relationship
 from os import getenv
 
-
-association_table = Table('place_amenity', Base.metadata,
-                      Column('place_id', String(60),
-                             ForeignKey('places.id'),
-                             primary_key=True, nullable=False),
-                      Column('amenity_id', String(60),
-                             ForeignKey('amenities.id'),
-                             primary_key=True, nullable=False))
+if getenv('HBNB_TYPE_STORAGE') == 'db':
+    place_amenity = Table('place_amenity', Base.metadata,
+                          Column('place_id', String(60),
+                                 ForeignKey('places.id'),
+                                 primary_key=True, nullable=False),
+                          Column('amenity_id', String(60),
+                                 ForeignKey('amenities.id'),
+                                 primary_key=True, nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -53,9 +53,10 @@ class Place(BaseModel, Base):
             Place."""
             from models import storage
             amenity_instances = []
-            for obj in storage.all(Amenity).values():
-                if obj.id == self.amenity_ids:
-                    amenity_instances.append(obj)
+            for obj_id in self.amenity_ids:
+                amenity_instance = storage.get(Amenity, obj_id)
+                if amenity_instance:
+                    amenity_instances.append(obj_id)
             return amenity_instances
 
         @amenities.setter
@@ -67,12 +68,12 @@ class Place(BaseModel, Base):
 
         @property
         def reviews(self):
-    """This method returns the list of Review instances with place_id equals
-        to the current Place.id"""
-        from models.review import Review
-        from models import storage
-        review_instances = []
-        for obj in storage.all(Review).values():
-            if obj.place_id == self.id:
-                review_instances.append(obj)
-        return review_instances
+            """This method returns the list of Review instances with place_id equals
+            to the current Place.id"""
+            from models.review import Review
+            from models import storage
+            review_instances = []
+            for obj in storage.all(Review).values():
+                if obj.place_id == self.id:
+                    review_instances.append(obj)
+            return review_instances
