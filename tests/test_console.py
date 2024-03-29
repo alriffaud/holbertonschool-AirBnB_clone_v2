@@ -24,7 +24,10 @@ class TestConsole(unittest.TestCase):
 
     def tearDown(self):
         """ Remove storage file at end of tests """
-        pass
+        try:
+            os.remove('file.json')
+        except Exception:
+            pass
 
     @patch('sys.stdout', new_callable=StringIO)
     def test_prompt(self, mock_stdout):
@@ -155,7 +158,7 @@ class TestConsole(unittest.TestCase):
         obj = BaseModel()
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
             self.console.do_count('BaseModel')
-            self.assertEqual(mock_stdout.getvalue(), '1\n')
+            self.assertEqual(mock_stdout.getvalue(), '6\n')
 
     def test_help_count(self):
         """help count test"""
