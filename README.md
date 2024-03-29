@@ -2,7 +2,7 @@
   <img src="https://i.imgur.com/ogbfW3k.png">
 </p>
 
-# AirBnB clone - The console
+# AirBnB clone - MySQL storage
 * This repository corresponds to the third part (the console) of the AirBnB clone project which consists of 6 parts:
 
 | Component 	| Description 	|
@@ -258,7 +258,7 @@ guillaume@ubuntu:~/AirBnB_v2$
 ```
 Some tests won’t be relevant for some type of storage, please skip them by using the skipIf feature of [the Unittest module - 26.3.6. Skipping tests and expected failures](https://intranet.hbtn.io/rltoken/BOkr9tNyPYYqqzYVQgDzEQ). Of course, the number of tests must be higher than the current number of tests, so if you decide to skip a test, you should write a new test!
 
-# How to test with MySQL?
+### How to test with MySQL?
 First, you create a specific database for it (next tasks). After, you have to remember what the purpose of an unittest?
 
 “Assert a current state (objects/data/database), do an action, and validate this action changed (or not) the state of your objects/data/database”
