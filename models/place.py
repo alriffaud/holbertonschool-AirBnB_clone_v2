@@ -59,7 +59,9 @@ class Place(BaseModel, Base):
     @property
     def amenities(self):"""
     """ This method returns the list of Amenity instances based on the
-        attribute amenity_ids that contains all Amenity.id linked to the Place."""
+        attribute amenity_ids that contains all Amenity.id linked to the
+        Place.
+    """
     """from models.amenity import Amenity
         from models import storage
         amenity_instances = []
