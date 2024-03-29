@@ -30,8 +30,7 @@ class Place(BaseModel, Base):
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
         amenities = relationship("Amenity", secondary=place_amenity,
-                                                 viewonly=False)
-
+                                 viewonly=False)
         amenity_ids = []
     else:
         city_id = ""
@@ -61,15 +60,15 @@ class Place(BaseModel, Base):
 
         @amenities.setter
         def amenities(self, amenity):
-            """This method handles append method for adding an Amenity.id to the
-            attribute amenity_ids"""
+            """This method handles append method for adding an Amenity.id
+            to the attribute amenity_ids"""
             if isinstance(amenity, Amenity):
                 self.amenity_ids.append(amenity.id)
 
         @property
         def reviews(self):
-            """This method returns the list of Review instances with place_id equals
-            to the current Place.id"""
+            """This method returns the list of Review instances with
+            place_id equals to the current Place.id"""
             from models.review import Review
             from models import storage
             review_instances = []
