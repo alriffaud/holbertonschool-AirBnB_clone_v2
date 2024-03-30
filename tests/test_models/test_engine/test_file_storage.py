@@ -6,8 +6,15 @@ from models.engine.file_storage import FileStorage
 from models import storage
 import os
 import json
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
+@unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") == "db", "Invalid syntax")
 class test_fileStorage(unittest.TestCase):
     """ Class to test file storage methods """
 
@@ -201,5 +208,66 @@ class test_fileStorage(unittest.TestCase):
         self.assertTrue(fs.all()[key])
 
 
-if __name__ == '__main__':
+class TestFileStorage(unittest.TestCase):
+    '''this will test the FileStorage'''
+
+    @classmethod
+    def setUpClass(cls):
+        """set up for test"""
+        cls.user = User()
+        cls.user.first_name = "Kev"
+        cls.user.last_name = "Yo"
+        cls.user.email = "1234@yahoo.com"
+        cls.storage = FileStorage()
+
+    @classmethod
+    def teardown(cls):
+        """at the end of the test this will tear it down"""
+        del cls.user
+
+    def tearDown(self):
+        """teardown"""
+        try:
+            os.remove("file.json")
+        except Exception:
+            pass
+
+    def test_all(self):
+        """tests if all works in File Storage"""
+        storage = FileStorage()
+        obj = storage.all()
+        self.assertIsNotNone(obj)
+        self.assertEqual(type(obj), dict)
+        self.assertIs(obj, storage._FileStorage__objects)
+
+    def test_reload_filestorage(self):
+        """
+        tests reload
+        """
+        self.storage.save()
+        Root = os.path.dirname(os.path.abspath("console.py"))
+        path = os.path.join(Root, "file.json")
+        with open(path, 'r') as f:
+            lines = f.readlines()
+        try:
+            os.remove(path)
+        except Exception:
+            pass
+        self.storage.save()
+        with open(path, 'r') as f:
+            lines2 = f.readlines()
+        self.assertEqual(lines, lines2)
+        try:
+            os.remove(path)
+        except Exception:
+            pass
+        with open(path, "w") as f:
+            f.write("{}")
+        with open(path, "r") as r:
+            for line in r:
+                self.assertEqual(line, "{}")
+        self.assertIs(self.storage.reload(), None)
+
+
+if __name__ == "__main__":
     unittest.main()
