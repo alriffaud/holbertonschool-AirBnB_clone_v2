@@ -49,7 +49,7 @@ class DBStorage():
                     dic[key] = inst
             """
         else:
-            for inst in self.__session.query(cls).all(): # classes[cls]
+            for inst in self.__session.query(cls).all():  # classes[cls]
                 key = '{}.{}'.format(cls, inst.id)
                 dic[key] = inst
         return dic
