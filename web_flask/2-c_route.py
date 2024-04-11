@@ -1,0 +1,29 @@
+#!/usr/bin/python3
+"""This script starts a Flask web application"""
+from flask import Flask
+from werkzeug.utils import escape
+
+app = Flask(__name__)
+
+
+@app.route('/', strict_slashes=False)
+def hello():
+    """This function display 'Hello HBNB!' in '/'"""
+    return ("Hello HBNB!")
+
+
+@app.route("/hbnb", strict_slashes=False)
+def hbnb_hbnb():
+    """This function display “HBNB” in '/hbnb'"""
+    return ("HBNB")
+
+
+@app.route("/c/<text>", strict_slashes=False)
+def hbnb_c(text):
+    """This function display a text in '/c/<text>'"""
+    text = escape(text).replace('_', ' ')
+    return ("C {}".format(text))
+
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=5000)
