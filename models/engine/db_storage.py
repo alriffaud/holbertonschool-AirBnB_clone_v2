@@ -42,8 +42,14 @@ class DBStorage():
                 for inst in data:
                     key = '{}.{}'.format(cls_name, inst.id)
                     dic[key] = inst
+            """elif cls == State:
+                data = self.__session.query(State).all()
+                for inst in data:
+                    key = 'State.{}'.format(inst.id)
+                    dic[key] = inst
+            """
         else:
-            for inst in self.__session.query(classes[cls]).all():
+            for inst in self.__session.query(cls).all(): # classes[cls]
                 key = '{}.{}'.format(cls, inst.id)
                 dic[key] = inst
         return dic
@@ -71,5 +77,5 @@ class DBStorage():
         self.__session = Session()
 
     def close(self):
-        """Close session"""
+        """Method on the private session attribute to close the session"""
         self.__session.close()
